@@ -8,14 +8,14 @@ import java.time.Instant;
  * Film.
  */
 @Getter
-@Setter
 @EqualsAndHashCode
 @ToString
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Builder
 public class Film {
-    private long id;
-    private String name;
-    private String description;
-    private Instant releaseDate;
-    private long duration;
+    private final long id;
+    private final String name;
+    private final String description;
+    private final Instant releaseDate;
+    private final long duration;
 }
