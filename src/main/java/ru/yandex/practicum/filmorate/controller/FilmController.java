@@ -2,6 +2,8 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.NewFilmDto;
+import ru.yandex.practicum.filmorate.util.Validator;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,9 +15,19 @@ public class FilmController {
     private Map<Long, Film> films = new HashMap<>();
 
     @PostMapping
-    public Film save(@RequestBody Film film) {
+    public Film save(@RequestBody NewFilmDto newFilmDto) {
         Long id = generateId();
-        film.setId(id);
+
+        Validator.validateFilmRelease(newFilmDto.getReleaseDate());
+
+        Film film = Film.builder()
+                .id(id)
+                .name(newFilmDto.getName())
+                .description(newFilmDto.getDescription())
+                .releaseDate(newFilmDto.getReleaseDate())
+                .duration(newFilmDto.getDuration())
+                .build();
+
         films.put(id, film);
         return film;
     }
