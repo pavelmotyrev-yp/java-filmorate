@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.film.Film;
@@ -17,7 +18,7 @@ public class FilmController {
     private Map<Long, Film> films = new HashMap<>();
 
     @PostMapping
-    public Film save(@RequestBody NewFilmDto newFilmDto) {
+    public Film save(@RequestBody @Valid NewFilmDto newFilmDto) {
         Long id = generateId();
 
         Validator.validateFilmRelease(newFilmDto.getReleaseDate());
@@ -35,7 +36,7 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film update(@RequestBody UpdateFilmDto updateFilmDto) {
+    public Film update(@RequestBody @Valid UpdateFilmDto updateFilmDto) {
         Long id = updateFilmDto.getId();
         Film film = films.getOrDefault(id, null);
 

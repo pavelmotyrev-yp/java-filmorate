@@ -8,7 +8,6 @@ import java.time.LocalDate;
 @Setter
 @EqualsAndHashCode
 @ToString
-@RequiredArgsConstructor
 @Builder
 public class User {
     private Long id;

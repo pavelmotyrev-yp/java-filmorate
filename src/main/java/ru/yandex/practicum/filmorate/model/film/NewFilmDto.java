@@ -21,7 +21,7 @@ public class NewFilmDto {
     @Size(max = 200, message = "описание должно быть не более 200 символов")
     private String description;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "дата релиза обязательна к заполнению")
     private LocalDate releaseDate;
 

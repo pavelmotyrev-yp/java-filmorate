@@ -24,7 +24,7 @@ public class NewUserDto {
 
     private String name;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Past(message = "дата рождения не может быть в будущем.")
     private LocalDate birthday;
 }

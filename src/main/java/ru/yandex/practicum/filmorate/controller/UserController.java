@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.user.NewUserDto;
@@ -16,7 +17,7 @@ public class UserController {
     private Map<Long, User> users = new HashMap<>();
 
     @PostMapping
-    public User create(@RequestBody NewUserDto newUserDto) {
+    public User create(@RequestBody @Valid NewUserDto newUserDto) {
         Long id = generateId();
 
         User user = User.builder()
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @PutMapping
-    public User update(@RequestBody UpdateUserDto updateUserDto) {
+    public User update(@RequestBody @Valid UpdateUserDto updateUserDto) {
         Long id = updateUserDto.getId();
         User user = users.getOrDefault(id, null);
 

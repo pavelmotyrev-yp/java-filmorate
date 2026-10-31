@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Setter
 @EqualsAndHashCode
 @ToString
-@RequiredArgsConstructor
 @Builder
 public class Film {
     private Long id;

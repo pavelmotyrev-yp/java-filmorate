@@ -25,7 +25,7 @@ public class UpdateFilmDto {
     @Size(max = 200, message = "описание должно быть не более 200 символов")
     private String description;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
 
     @Positive(message = "продолжительность фильма должна быть положительным числом")
