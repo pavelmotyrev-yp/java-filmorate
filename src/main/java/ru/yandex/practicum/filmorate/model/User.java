@@ -5,14 +5,15 @@ import lombok.*;
 import java.time.Instant;
 
 @Getter
+@Setter
 @EqualsAndHashCode
 @ToString
 @RequiredArgsConstructor
 @Builder
 public class User {
-    private final long id;
-    private final String email;
-    private final String login;
-    private final String name;
-    private final Instant birthday;
+    private Long id;
+    private String email;
+    private String login;
+    private String name;
+    private Instant birthday;
 }
