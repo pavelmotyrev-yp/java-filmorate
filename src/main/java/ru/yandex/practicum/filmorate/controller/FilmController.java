@@ -21,27 +21,27 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film update(@RequestBody Film film) {
-        Long id = film.getId();
-        Film filmFromDb = films.get(id);
+    public Film update(@RequestBody Film mewFilm) {
+        Long id = mewFilm.getId();
+        Film film = films.get(id);
 
-        if (film.getName() != null) {
-            filmFromDb.setName(film.getName());
+        if (mewFilm.getName() != null) {
+            film.setName(mewFilm.getName());
         }
 
-        if (film.getDescription() != null) {
-            filmFromDb.setDescription(film.getDescription());
+        if (mewFilm.getDescription() != null) {
+            film.setDescription(mewFilm.getDescription());
         }
 
-        if (film.getReleaseDate() != null) {
-            filmFromDb.setReleaseDate(film.getReleaseDate());
+        if (mewFilm.getReleaseDate() != null) {
+            film.setReleaseDate(mewFilm.getReleaseDate());
         }
 
-        if (film.getDuration() != null) {
-            filmFromDb.setDuration(film.getDuration());
+        if (mewFilm.getDuration() != null) {
+            film.setDuration(mewFilm.getDuration());
         }
 
-        return filmFromDb;
+        return film;
     }
 
     @GetMapping
