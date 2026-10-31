@@ -1,6 +1,9 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.model.user.NewUserDto;
+import ru.yandex.practicum.filmorate.model.user.UpdateUserDto;
 import ru.yandex.practicum.filmorate.model.user.User;
 
 import java.util.Collection;
@@ -13,32 +16,44 @@ public class UserController {
     private Map<Long, User> users = new HashMap<>();
 
     @PostMapping
-    public User create(@RequestBody User user) {
+    public User create(@RequestBody NewUserDto newUserDto) {
         Long id = generateId();
-        user.setId(id);
-        users.put(user.getId(), user);
+
+        User user = User.builder()
+                .id(id)
+                .email(newUserDto.getEmail())
+                .login(newUserDto.getLogin())
+                .name(newUserDto.getName() == null ? newUserDto.getLogin() : newUserDto.getName())
+                .birthday(newUserDto.getBirthday())
+                .build();
+
+        users.put(id, user);
         return user;
     }
 
     @PutMapping
-    public User update(@RequestBody User newUser) {
-        Long id = newUser.getId();
-        User user = users.get(id);
+    public User update(@RequestBody UpdateUserDto updateUserDto) {
+        Long id = updateUserDto.getId();
+        User user = users.getOrDefault(id, null);
 
-        if (newUser.getEmail() != null) {
-            user.setEmail(newUser.getEmail());
+        if (user == null) {
+            throw new NotFoundException("пользователь с id " + id + " не найден");
         }
 
-        if (newUser.getLogin() != null) {
-            user.setLogin(newUser.getLogin());
+        if (updateUserDto.getEmail() != null) {
+            user.setEmail(updateUserDto.getEmail());
         }
 
-        if (newUser.getName() != null) {
-            user.setName(newUser.getName());
+        if (updateUserDto.getLogin() != null) {
+            user.setLogin(updateUserDto.getLogin());
         }
 
-        if (newUser.getBirthday() != null) {
-            user.setBirthday(newUser.getBirthday());
+        if (updateUserDto.getName() != null) {
+            user.setName(updateUserDto.getName());
+        }
+
+        if (updateUserDto.getBirthday() != null) {
+            user.setBirthday(updateUserDto.getBirthday());
         }
 
         return user;

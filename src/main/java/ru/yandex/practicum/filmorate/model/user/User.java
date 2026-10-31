@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.model.user;
 
 import lombok.*;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -15,5 +15,5 @@ public class User {
     private String email;
     private String login;
     private String name;
-    private Instant birthday;
+    private LocalDate birthday;
 }

@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -23,6 +24,7 @@ public class NewUserDto {
 
     private String name;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @Past(message = "дата рождения не может быть в будущем.")
     private LocalDate birthday;
 }
