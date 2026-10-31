@@ -1,8 +1,8 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.NewFilmDto;
+import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.model.film.NewFilmDto;
 import ru.yandex.practicum.filmorate.util.Validator;
 
 import java.util.Collection;
