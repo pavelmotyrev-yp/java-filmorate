@@ -1,8 +1,10 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.model.film.NewFilmDto;
+import ru.yandex.practicum.filmorate.model.film.UpdateFilmDto;
 import ru.yandex.practicum.filmorate.util.Validator;
 
 import java.util.Collection;
@@ -33,24 +35,29 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film update(@RequestBody Film mewFilm) {
-        Long id = mewFilm.getId();
-        Film film = films.get(id);
+    public Film update(@RequestBody UpdateFilmDto updateFilmDto) {
+        Long id = updateFilmDto.getId();
+        Film film = films.getOrDefault(id, null);
 
-        if (mewFilm.getName() != null) {
-            film.setName(mewFilm.getName());
+        if (film == null) {
+            throw new NotFoundException("фильм с id " + id + " не найден");
         }
 
-        if (mewFilm.getDescription() != null) {
-            film.setDescription(mewFilm.getDescription());
+        if (updateFilmDto.getName() != null) {
+            film.setName(updateFilmDto.getName());
         }
 
-        if (mewFilm.getReleaseDate() != null) {
-            film.setReleaseDate(mewFilm.getReleaseDate());
+        if (updateFilmDto.getDescription() != null) {
+            film.setDescription(updateFilmDto.getDescription());
         }
 
-        if (mewFilm.getDuration() != null) {
-            film.setDuration(mewFilm.getDuration());
+        if (updateFilmDto.getReleaseDate() != null) {
+            Validator.validateFilmRelease(updateFilmDto.getReleaseDate());
+            film.setReleaseDate(updateFilmDto.getReleaseDate());
+        }
+
+        if (updateFilmDto.getDuration() != null) {
+            film.setDuration(updateFilmDto.getDuration());
         }
 
         return film;
