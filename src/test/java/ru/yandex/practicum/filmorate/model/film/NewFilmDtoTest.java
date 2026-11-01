@@ -41,7 +41,7 @@ class NewFilmDtoTest {
         dto.setDuration(120L);
 
         var violations = validator.validate(dto);
-        
+
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("name")));
         assertTrue(violations.stream().anyMatch(v -> v.getMessageTemplate().equals("название не может быть пустым")));
     }
@@ -55,7 +55,7 @@ class NewFilmDtoTest {
         dto.setDuration(120L);
 
         var violations = validator.validate(dto);
-        
+
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("name")));
         assertTrue(violations.stream().anyMatch(v -> v.getMessageTemplate().equals("название не может быть пустым")));
     }
@@ -69,7 +69,7 @@ class NewFilmDtoTest {
         dto.setDuration(120L);
 
         var violations = validator.validate(dto);
-        
+
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("name")));
         assertTrue(violations.stream().anyMatch(v -> v.getMessageTemplate().equals("название не может быть пустым")));
     }
@@ -130,7 +130,7 @@ class NewFilmDtoTest {
         dto.setDuration(120L);
 
         var violations = validator.validate(dto);
-        
+
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("description")));
         assertTrue(violations.stream().anyMatch(v -> v.getMessageTemplate().equals("описание должно быть не более 200 символов")));
     }
@@ -144,7 +144,7 @@ class NewFilmDtoTest {
         dto.setDuration(120L);
 
         var violations = validator.validate(dto);
-        
+
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("description")));
         assertTrue(violations.stream().anyMatch(v -> v.getMessageTemplate().equals("описание должно быть не более 200 символов")));
     }
@@ -157,7 +157,7 @@ class NewFilmDtoTest {
         dto.setDuration(120L);
 
         var violations = validator.validate(dto);
-        
+
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("releaseDate")));
         assertTrue(violations.stream().anyMatch(v -> v.getMessageTemplate().equals("дата релиза обязательна к заполнению")));
     }
@@ -219,7 +219,7 @@ class NewFilmDtoTest {
         dto.setDuration(0L);
 
         var violations = validator.validate(dto);
-        
+
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("duration")));
         assertTrue(violations.stream().anyMatch(v -> v.getMessageTemplate().equals("продолжительность фильма должна быть положительным числом")));
     }
@@ -233,7 +233,7 @@ class NewFilmDtoTest {
         dto.setDuration(-1L);
 
         var violations = validator.validate(dto);
-        
+
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("duration")));
         assertTrue(violations.stream().anyMatch(v -> v.getMessageTemplate().equals("продолжительность фильма должна быть положительным числом")));
     }
