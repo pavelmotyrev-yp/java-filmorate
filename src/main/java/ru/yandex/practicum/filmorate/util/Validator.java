@@ -10,8 +10,8 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 @UtilityClass
 public class Validator {
-    private final static LocalDate EARLIEST_DATE_RELEASE = LocalDate.of(1895, 12, 28);
-    private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final LocalDate EARLIEST_DATE_RELEASE = LocalDate.of(1895, 12, 28);
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static void validateFilmRelease(LocalDate releaseDate) {
         if (releaseDate.isBefore(EARLIEST_DATE_RELEASE)) {
