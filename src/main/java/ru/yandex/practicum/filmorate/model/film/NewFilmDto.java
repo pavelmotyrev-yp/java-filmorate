@@ -26,5 +26,6 @@ public class NewFilmDto {
     private LocalDate releaseDate;
 
     @Positive(message = "продолжительность фильма должна быть положительным числом")
+    @NotNull(message = "продолжительность обязательна к заполнению")
     private Long duration;
 }
