@@ -5,7 +5,12 @@ import lombok.*;
 import java.time.LocalDate;
 
 /**
- * Film.
+ * Сущность фильма.
+ *
+ * <p>Представляет информацию о фильме, включая название, описание,
+ * дату релиза и продолжительность.</p>
+ *
+ * @see NewFilmDto
  */
 @Getter
 @Setter
@@ -13,9 +18,28 @@ import java.time.LocalDate;
 @ToString
 @Builder
 public class Film {
+    /**
+     * Уникальный идентификатор фильма.
+     */
     private Long id;
+
+    /**
+     * Название фильма.
+     */
     private String name;
+
+    /**
+     * Описание фильма.
+     */
     private String description;
+
+    /**
+     * Дата выхода фильма в прокат (pattern = "yyyy-MM-dd").
+     */
     private LocalDate releaseDate;
+
+    /**
+     * Продолжительность фильма в минутах.
+     */
     private Long duration;
 }
