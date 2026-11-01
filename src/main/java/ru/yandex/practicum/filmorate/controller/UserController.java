@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.user.NewUserDto;
@@ -13,11 +14,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
     private Map<Long, User> users = new HashMap<>();
 
     @PostMapping
     public User create(@RequestBody @Valid NewUserDto newUserDto) {
+        log.debug("Создание пользователя, login: {}", newUserDto.getLogin());
+
         Long id = generateId();
 
         User user = User.builder()
@@ -29,15 +33,19 @@ public class UserController {
                 .build();
 
         users.put(id, user);
+        log.info("Пользователь успешно создан, id: {}", id);
         return user;
     }
 
     @PutMapping
     public User update(@RequestBody @Valid UpdateUserDto updateUserDto) {
         Long id = updateUserDto.getId();
+        log.debug("Обновление пользователя, id: {}", id);
+
         User user = users.getOrDefault(id, null);
 
         if (user == null) {
+            log.warn("Пользователь не найден, id: {}", id);
             throw new NotFoundException("пользователь с id " + id + " не найден");
         }
 
@@ -57,11 +65,13 @@ public class UserController {
             user.setBirthday(updateUserDto.getBirthday());
         }
 
+        log.info("Пользователь успешно обновлён, id: {}", id);
         return user;
     }
 
     @GetMapping
     public Collection<User> getAll() {
+        log.debug("Запрос списка пользователей, кол-во: {}", users.size());
         return users.values();
     }
 
