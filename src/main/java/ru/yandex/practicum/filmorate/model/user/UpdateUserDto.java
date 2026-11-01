@@ -19,7 +19,6 @@ public class UpdateUserDto {
     @Email(message = "электронная почта не может быть пустой и должна содержать символ @")
     private String email;
 
-    @NotBlank(message = "электронная почта не может быть пустой и должна содержать символ @")
     @Pattern(regexp = "^\\S+$", message = "Логин не должен содержать пробелы")
     private String login;
 

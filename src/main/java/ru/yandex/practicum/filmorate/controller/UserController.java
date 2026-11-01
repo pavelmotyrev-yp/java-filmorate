@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @GetMapping
-    public Collection<User> findAll() {
+    public Collection<User> getAll() {
         return users.values();
     }
 
