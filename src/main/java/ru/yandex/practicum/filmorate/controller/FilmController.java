@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    private Map<Long, Film> films = new HashMap<>();
+
 
     @PostMapping
     public Film save(@RequestBody @Valid NewFilmDto newFilmDto) {
@@ -79,11 +79,5 @@ public class FilmController {
         return films.values();
     }
 
-    private Long generateId() {
-        Long currentMaxId = films.keySet().stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0L);
-        return ++currentMaxId;
-    }
+
 }
