@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface FilmStorage {
     Film create(Film film);
 
-    Film update(long id, Film newFilm);
+    Film update(long id, Film film);
 
     Optional<Film> get(long id);
 

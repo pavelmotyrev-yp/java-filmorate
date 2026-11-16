@@ -19,9 +19,9 @@ public class InMemoryFilmStorage implements FilmStorage {
         return film;
     }
 
-    public Film update(long id, Film newFilm) {
-        films.put(id, newFilm);
-        return newFilm;
+    public Film update(long id, Film film) {
+        films.put(id, film);
+        return film;
     }
 
     public Optional<Film> get(long id) {
