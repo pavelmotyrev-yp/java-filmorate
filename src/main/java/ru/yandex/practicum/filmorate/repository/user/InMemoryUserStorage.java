@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.repository.user;
 
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.model.user.User;
+import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
 import java.util.HashMap;
