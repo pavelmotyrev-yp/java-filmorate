@@ -1,14 +1,16 @@
-package ru.yandex.practicum.filmorate.model.film;
+package ru.yandex.practicum.filmorate.model;
 
 import lombok.*;
+import ru.yandex.practicum.filmorate.dto.film.NewFilmDto;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * Сущность фильма.
  *
  * <p>Представляет информацию о фильме, включая название, описание,
- * дату релиза и продолжительность.</p>
+ * дату релиза, продолжительность и количество лайков от пользователей.</p>
  *
  * @see NewFilmDto
  */
@@ -42,4 +44,9 @@ public class Film {
      * Продолжительность фильма в минутах.
      */
     private Long duration;
+
+    /**
+     * Лайки от пользователей. При добавлении лайка от пользователя сохраняется его ID.
+     */
+    private Set<Long> likes;
 }
