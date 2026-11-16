@@ -23,13 +23,13 @@ public class FilmController {
     @PostMapping
     public ResponseEntity<FilmResponseDto> save(@RequestBody @Valid NewFilmDto newFilmDto) {
         FilmResponseDto filmResponseDto = filmService.save(newFilmDto);
-        return ResponseEntity.status(HttpStatus.OK).body(filmResponseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(filmResponseDto);
     }
 
     @PutMapping
     public ResponseEntity<FilmResponseDto> update(@RequestBody @Valid UpdateFilmDto updateFilmDto) {
         FilmResponseDto filmResponseDto = filmService.update(updateFilmDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(filmResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(filmResponseDto);
     }
 
     @GetMapping

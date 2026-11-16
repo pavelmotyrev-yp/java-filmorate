@@ -3,10 +3,7 @@ package ru.yandex.practicum.filmorate.repository.user;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class InMemoryUserStorage implements UserStorage {
@@ -43,5 +40,28 @@ public class InMemoryUserStorage implements UserStorage {
                 .max()
                 .orElse(0L);
         return ++currentMaxId;
+    }
+
+    @Override
+    public void addFriend(long userId, long friendId) {
+        User user = users.get(userId);
+        User friend = users.get(friendId);
+        user.getFriends().add(friendId);
+        friend.getFriends().add(userId);
+    }
+
+    @Override
+    public void removeFriend(long userId, long friendId) {
+        User user = users.get(userId);
+        User friend = users.get(friendId);
+        user.getFriends().remove(friendId);
+        friend.getFriends().remove(userId);
+    }
+
+    @Override
+    public List<User> getCommonFriend(long userId, long friendId) {
+        return users.values().stream()
+                .filter(user -> user.getFriends().contains(userId) && user.getFriends().contains(friendId))
+                .toList();
     }
 }
