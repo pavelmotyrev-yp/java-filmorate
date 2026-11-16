@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.validator.ValidReleaseDate;
 
 import java.time.LocalDate;
 
@@ -42,6 +43,7 @@ public class NewFilmDto {
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "дата релиза обязательна к заполнению")
+    @ValidReleaseDate
     private LocalDate releaseDate;
 
     /**
