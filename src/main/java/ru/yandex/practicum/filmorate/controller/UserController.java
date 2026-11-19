@@ -39,8 +39,15 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserResponseDto> getById(@PathVariable long userId){
+    public ResponseEntity<UserResponseDto> getById(@PathVariable long userId) {
         UserResponseDto user = userService.getById(userId);
         return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    @PutMapping("/{id}/friends/{friendId}")
+    public ResponseEntity<Void> addFriend(@PathVariable long id,
+                                          @PathVariable long friendId) {
+        userService.addFriend(id, friendId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
