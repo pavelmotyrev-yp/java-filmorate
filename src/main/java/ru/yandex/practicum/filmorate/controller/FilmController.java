@@ -50,4 +50,11 @@ public class FilmController {
         filmService.addLike(id, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("/{id}/like/{userId}")
+    public ResponseEntity<Void> removeLike(@PathVariable long id,
+                                           @PathVariable long userId) {
+        filmService.removeLike(id, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }
