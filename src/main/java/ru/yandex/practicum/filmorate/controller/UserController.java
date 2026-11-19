@@ -57,4 +57,10 @@ public class UserController {
         userService.removeFriend(id, friendId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @GetMapping("/{id}/friends")
+    public ResponseEntity<List<UserResponseDto>> getUserFriends(@PathVariable long id) {
+        List<UserResponseDto> userResponseDtoList = userService.getUserFriends(id);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDtoList);
+    }
 }

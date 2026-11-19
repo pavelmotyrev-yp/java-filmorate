@@ -90,6 +90,17 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
+    @Override
+    public List<UserResponseDto> getUserFriends(long id) {
+        log.info("Получение списка друзей пользователя с ID={}", id);
+        checkUser(id);
+        List<User> userFriends = userStorage.getUserFriends(id);
+        log.debug("Получен список друзей пользователя с ID={} размер списка size={}", id, userFriends.size());
+        return userFriends.stream()
+                .map(UserMapper::toUserResponseDto)
+                .toList();
+    }
+
     private void checkUser(long userId) {
         if (!userStorage.isExist(userId)) {
             throw new NotFoundException("Пользователь не найден по ID=" + userId);

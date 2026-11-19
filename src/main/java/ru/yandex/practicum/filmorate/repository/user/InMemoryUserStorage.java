@@ -64,4 +64,11 @@ public class InMemoryUserStorage implements UserStorage {
                 .filter(user -> user.getFriends().contains(userId) && user.getFriends().contains(friendId))
                 .toList();
     }
+
+    @Override
+    public List<User> getUserFriends(long id) {
+        return users.values().stream()
+                .filter(user -> user.getId() != id && user.getFriends().contains(id))
+                .toList();
+    }
 }
