@@ -63,4 +63,11 @@ public class UserController {
         List<UserResponseDto> userResponseDtoList = userService.getUserFriends(id);
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDtoList);
     }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public ResponseEntity<List<UserResponseDto>> getCommonFriends(@PathVariable long id,
+                                                                  @PathVariable long otherId) {
+        List<UserResponseDto> commonFriendList = userService.getCommonFriend(id, otherId);
+        return ResponseEntity.status(HttpStatus.OK).body(commonFriendList);
+    }
 }
