@@ -50,4 +50,11 @@ public class UserController {
         userService.addFriend(id, friendId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    public ResponseEntity<Void> deleteFriend(@PathVariable long id,
+                                             @PathVariable long friendId) {
+        userService.removeFriend(id, friendId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
