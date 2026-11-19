@@ -13,6 +13,8 @@ public interface UserService {
 
     List<UserResponseDto> getAll();
 
+    UserResponseDto getById(long userId);
+
     void addFriend(long userId, long friendId);
 
     void removeFriend(long userId, long friendId);

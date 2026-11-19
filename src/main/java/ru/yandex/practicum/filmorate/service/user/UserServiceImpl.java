@@ -52,6 +52,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserResponseDto getById(long userId) {
+        log.info("Получение пользователя по ID={}", userId);
+        Optional<User> optionalUser = userStorage.get(userId);
+        User user = optionalUser.orElseThrow(() -> new NotFoundException("Пользователь не найден по ID=" + userId));
+        log.debug("Пользователь получен по ID={}", userId);
+        return UserMapper.toUserResponseDto(user);
+    }
+
+    @Override
     public void addFriend(long userId, long friendId) {
         log.info("Добавление пользователю с ID={} в друзья пользователя с ID={}", userId, friendId);
         checkUser(userId);
