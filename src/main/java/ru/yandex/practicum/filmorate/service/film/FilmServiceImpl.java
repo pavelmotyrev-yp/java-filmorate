@@ -54,6 +54,15 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+    public FilmResponseDto getById(long filmId) {
+        log.info("Получение фильма по ID={}", filmId);
+        Optional<Film> optionalFilm = filmStorage.get(filmId);
+        Film film = optionalFilm.orElseThrow(() -> new NotFoundException("Фильм не найден по ID=" + filmId));
+        log.debug("Пользователь получен по ID={}", filmId);
+        return FilmMapper.toFilmResponseDto(film);
+    }
+
+    @Override
     public void addLike(long filmId, long userId) {
         log.info("Добавление лайка filmId={} от userId={}", filmId, userId);
         checkUserId(userId);

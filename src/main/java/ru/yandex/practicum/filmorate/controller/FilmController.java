@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.dto.film.FilmResponseDto;
 import ru.yandex.practicum.filmorate.dto.film.NewFilmDto;
 import ru.yandex.practicum.filmorate.dto.film.UpdateFilmDto;
+import ru.yandex.practicum.filmorate.dto.user.UserResponseDto;
 import ru.yandex.practicum.filmorate.service.film.FilmService;
 
 import java.util.List;
@@ -36,6 +37,12 @@ public class FilmController {
     public ResponseEntity<List<FilmResponseDto>> getAll() {
         List<FilmResponseDto> filmResponseDtoList = filmService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(filmResponseDtoList);
+    }
+
+    @GetMapping("/{filmId}")
+    public ResponseEntity<FilmResponseDto> getById(@PathVariable long filmId){
+        FilmResponseDto film = filmService.getById(filmId);
+        return ResponseEntity.status(HttpStatus.OK).body(film);
     }
 
 }
