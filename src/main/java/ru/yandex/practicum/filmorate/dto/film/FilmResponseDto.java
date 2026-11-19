@@ -1,11 +1,11 @@
 package ru.yandex.practicum.filmorate.dto.film;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 
+@Getter
+@Setter
 @EqualsAndHashCode
 @ToString
 @Builder

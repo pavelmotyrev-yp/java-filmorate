@@ -36,7 +36,7 @@ public class UpdateFilmDto {
     /**
      * Новое название фильма. Не может быть пустым.
      */
-    @NotEmpty
+    @NotEmpty(message = "имя не может быть пустым")
     private String name;
 
     /**
@@ -51,7 +51,7 @@ public class UpdateFilmDto {
      * Может быть null.
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ValidReleaseDate
+    @ValidReleaseDate(message = "Дата фильма не может быть в будущем или раньше 1895-12-28")
     private LocalDate releaseDate;
 
     /**

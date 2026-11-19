@@ -3,6 +3,8 @@ package ru.yandex.practicum.filmorate.dto.film;
 import lombok.experimental.UtilityClass;
 import ru.yandex.practicum.filmorate.model.Film;
 
+import java.util.HashSet;
+
 @UtilityClass
 public class FilmMapper {
 
@@ -12,6 +14,7 @@ public class FilmMapper {
                 .description(newFilm.getDescription())
                 .releaseDate(newFilm.getReleaseDate())
                 .duration(newFilm.getDuration())
+                .likes(new HashSet<>())
                 .build();
     }
 

@@ -23,10 +23,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto create(NewUserDto newUserDto) {
-        log.info("Создание нового пользователя");
+        log.info("Создание нового пользователя user={}", newUserDto);
         User user = UserMapper.toUser(newUserDto);
         User savedUser = userStorage.create(user);
-        log.debug("Пользователь сохранен с ID={}", savedUser.getId());
+        log.info("Пользователь сохранен с ID={}", savedUser.getId());
         return UserMapper.toUserResponseDto(savedUser);
     }
 
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         User user = userOptional.orElseThrow(() -> new NotFoundException("Пользователь не найден по ID=" + updateUserDto.getId()));
         User updatedUser = UserMapper.toUser(user, updateUserDto);
         User savedUser = userStorage.update(updatedUser.getId(), updatedUser);
-        log.debug("Пользователь обновлен по ID={}", savedUser.getId());
+        log.info("Пользователь обновлен по ID={}", savedUser.getId());
         return UserMapper.toUserResponseDto(savedUser);
     }
 
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     public List<UserResponseDto> getAll() {
         log.info("Получение всех пользователей");
         Collection<User> userList = userStorage.getAll();
-        log.debug("Получен список пользователей размером size={}", userList.size());
+        log.info("Получен список пользователей размером size={}", userList.size());
         return userList.stream()
                 .map(UserMapper::toUserResponseDto)
                 .toList();
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
         log.info("Получение пользователя по ID={}", userId);
         Optional<User> optionalUser = userStorage.get(userId);
         User user = optionalUser.orElseThrow(() -> new NotFoundException("Пользователь не найден по ID=" + userId));
-        log.debug("Пользователь получен по ID={}", userId);
+        log.info("Пользователь получен по ID={}", userId);
         return UserMapper.toUserResponseDto(user);
     }
 
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         checkUser(userId);
         checkUser(friendId);
         userStorage.addFriend(userId, friendId);
-        log.debug("Добавлен пользователю с ID={} в друзья пользователь с ID={}", userId, friendId);
+        log.info("Добавлен пользователю с ID={} в друзья пользователь с ID={}", userId, friendId);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
         checkUser(userId);
         checkUser(friendId);
         userStorage.removeFriend(userId, friendId);
-        log.debug("Удален у пользователя с ID={} из друзей пользователь с ID={}", userId, friendId);
+        log.info("Удален у пользователя с ID={} из друзей пользователь с ID={}", userId, friendId);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
         checkUser(userId);
         checkUser(friendId);
         List<User> commonFriendList = userStorage.getCommonFriend(userId, friendId);
-        log.debug("Список общих друзей получен size={}", commonFriendList.size());
+        log.info("Список общих друзей получен size={}", commonFriendList.size());
         return commonFriendList.stream()
                 .map(UserMapper::toUserResponseDto)
                 .toList();
@@ -94,8 +94,9 @@ public class UserServiceImpl implements UserService {
     public List<UserResponseDto> getUserFriends(long id) {
         log.info("Получение списка друзей пользователя с ID={}", id);
         checkUser(id);
+        log.info("Пользователь проверен");
         List<User> userFriends = userStorage.getUserFriends(id);
-        log.debug("Получен список друзей пользователя с ID={} размер списка size={}", id, userFriends.size());
+        log.info("Получен список друзей пользователя с ID={} размер списка size={}", id, userFriends.size());
         return userFriends.stream()
                 .map(UserMapper::toUserResponseDto)
                 .toList();

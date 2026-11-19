@@ -43,7 +43,7 @@ public class NewFilmDto {
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "дата релиза обязательна к заполнению")
-    @ValidReleaseDate
+    @ValidReleaseDate(message = "Дата фильма не может быть в будущем или раньше 1895-12-28")
     private LocalDate releaseDate;
 
     /**

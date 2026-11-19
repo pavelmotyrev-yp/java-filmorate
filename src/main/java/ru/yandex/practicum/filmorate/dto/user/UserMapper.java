@@ -3,6 +3,8 @@ package ru.yandex.practicum.filmorate.dto.user;
 import lombok.experimental.UtilityClass;
 import ru.yandex.practicum.filmorate.model.User;
 
+import java.util.HashSet;
+
 @UtilityClass
 public class UserMapper {
     public static User toUser(NewUserDto newUser) {
@@ -11,6 +13,7 @@ public class UserMapper {
                 .login(newUser.getLogin())
                 .name(newUser.getName() == null ? newUser.getLogin() : newUser.getName())
                 .birthday(newUser.getBirthday())
+                .friends(new HashSet<>())
                 .build();
     }
 

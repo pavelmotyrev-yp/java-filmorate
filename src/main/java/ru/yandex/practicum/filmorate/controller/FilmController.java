@@ -48,17 +48,17 @@ public class FilmController {
     public ResponseEntity<Void> addLike(@PathVariable long id,
                                         @PathVariable long userId) {
         filmService.addLike(id, userId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{id}/like/{userId}")
     public ResponseEntity<Void> removeLike(@PathVariable long id,
                                            @PathVariable long userId) {
         filmService.removeLike(id, userId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/popular?count={count}")
+    @GetMapping("/popular")
     public ResponseEntity<List<FilmResponseDto>> getPopularFilm(@RequestParam(defaultValue = "10") long count) {
         List<FilmResponseDto> popularFilms = filmService.getMostPopular(count);
         return ResponseEntity.status(HttpStatus.OK).body(popularFilms);

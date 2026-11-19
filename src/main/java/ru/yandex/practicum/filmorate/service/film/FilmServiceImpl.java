@@ -28,7 +28,7 @@ public class FilmServiceImpl implements FilmService {
         log.info("Создание фильма, name: {}", newFilmDto.getName());
         Film film = FilmMapper.toFilm(newFilmDto);
         Film savedFilm = filmStorage.create(film);
-        log.debug("Фильм сохранен с ID: {}", savedFilm.getId());
+        log.info("Фильм сохранен с ID: {}", savedFilm.getId());
         return FilmMapper.toFilmResponseDto(savedFilm);
     }
 
@@ -39,7 +39,7 @@ public class FilmServiceImpl implements FilmService {
         Film film = filmOptional.orElseThrow(() -> new NotFoundException("Не найден фильм по ID=" + updateFilmDto.getId()));
         Film updatedFilm = FilmMapper.toFilm(film, updateFilmDto);
         Film savedFilm = filmStorage.update(updatedFilm.getId(), updatedFilm);
-        log.debug("Фильм обновлен по ID: {}", savedFilm.getId());
+        log.info("Фильм обновлен по ID: {}", savedFilm.getId());
         return FilmMapper.toFilmResponseDto(savedFilm);
     }
 
@@ -47,7 +47,7 @@ public class FilmServiceImpl implements FilmService {
     public List<FilmResponseDto> getAll() {
         log.info("Получение списка фильмов");
         Collection<Film> films = filmStorage.getAll();
-        log.debug("Список фильмов получен size={}", films.size());
+        log.info("Список фильмов получен size={}", films.size());
         return films.stream()
                 .map(FilmMapper::toFilmResponseDto)
                 .toList();
@@ -58,7 +58,7 @@ public class FilmServiceImpl implements FilmService {
         log.info("Получение фильма по ID={}", filmId);
         Optional<Film> optionalFilm = filmStorage.get(filmId);
         Film film = optionalFilm.orElseThrow(() -> new NotFoundException("Фильм не найден по ID=" + filmId));
-        log.debug("Пользователь получен по ID={}", filmId);
+        log.info("Пользователь получен по ID={}", filmId);
         return FilmMapper.toFilmResponseDto(film);
     }
 
@@ -68,7 +68,7 @@ public class FilmServiceImpl implements FilmService {
         checkUserId(userId);
         checkFilmId(filmId);
         filmStorage.addLike(filmId, userId);
-        log.debug("Лайк filmId={} от userId={} добавлен", filmId, userId);
+        log.info("Лайк filmId={} от userId={} добавлен", filmId, userId);
     }
 
     @Override
@@ -77,14 +77,14 @@ public class FilmServiceImpl implements FilmService {
         checkUserId(userId);
         checkFilmId(filmId);
         filmStorage.removeLike(filmId, userId);
-        log.debug("Лайк filmId={} от userId={} удален", filmId, userId);
+        log.info("Лайк filmId={} от userId={} удален", filmId, userId);
     }
 
     @Override
     public List<FilmResponseDto> getMostPopular(long size) {
         log.info("Получение {} самых популярных фильмов", size);
         List<Film> films = filmStorage.getMostPopular(size);
-        log.debug("Получено {} самых популярных фильмов", films.size());
+        log.info("Получено {} самых популярных фильмов", films.size());
         return films.stream()
                 .map(FilmMapper::toFilmResponseDto)
                 .toList();

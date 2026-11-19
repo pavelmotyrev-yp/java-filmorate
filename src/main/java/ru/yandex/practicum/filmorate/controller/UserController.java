@@ -48,7 +48,7 @@ public class UserController {
     public ResponseEntity<Void> addFriend(@PathVariable long id,
                                           @PathVariable long friendId) {
         userService.addFriend(id, friendId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
