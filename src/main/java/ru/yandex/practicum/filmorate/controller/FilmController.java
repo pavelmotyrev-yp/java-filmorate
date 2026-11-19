@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.dto.film.FilmResponseDto;
 import ru.yandex.practicum.filmorate.dto.film.NewFilmDto;
 import ru.yandex.practicum.filmorate.dto.film.UpdateFilmDto;
-import ru.yandex.practicum.filmorate.dto.user.UserResponseDto;
 import ru.yandex.practicum.filmorate.service.film.FilmService;
 
 import java.util.List;
@@ -40,9 +39,15 @@ public class FilmController {
     }
 
     @GetMapping("/{filmId}")
-    public ResponseEntity<FilmResponseDto> getById(@PathVariable long filmId){
+    public ResponseEntity<FilmResponseDto> getById(@PathVariable long filmId) {
         FilmResponseDto film = filmService.getById(filmId);
         return ResponseEntity.status(HttpStatus.OK).body(film);
     }
 
+    @PutMapping("/{id}/like/{userId}")
+    public ResponseEntity<Void> addLike(@PathVariable long id,
+                                        @PathVariable long userId) {
+        filmService.addLike(id, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }
