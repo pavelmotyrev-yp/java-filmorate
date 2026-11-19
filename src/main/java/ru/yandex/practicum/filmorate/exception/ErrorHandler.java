@@ -18,4 +18,9 @@ public class ErrorHandler {
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getMessage()));
     }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleRuntimeException(final RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getMessage()));
+    }
 }
