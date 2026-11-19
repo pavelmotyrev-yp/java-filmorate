@@ -57,4 +57,10 @@ public class FilmController {
         filmService.removeLike(id, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("/popular?count={count}")
+    public ResponseEntity<List<FilmResponseDto>> getPopularFilm(@RequestParam(defaultValue = "10") long count) {
+        List<FilmResponseDto> popularFilms = filmService.getMostPopular(count);
+        return ResponseEntity.status(HttpStatus.OK).body(popularFilms);
+    }
 }
