@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model.film;
+package ru.yandex.practicum.filmorate.dto.film;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotEmpty;
@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.validator.ValidReleaseDate;
 
 import java.time.LocalDate;
 
@@ -34,7 +36,7 @@ public class UpdateFilmDto {
     /**
      * Новое название фильма. Не может быть пустым.
      */
-    @NotEmpty
+    @NotEmpty(message = "имя не может быть пустым")
     private String name;
 
     /**
@@ -49,6 +51,7 @@ public class UpdateFilmDto {
      * Может быть null.
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @ValidReleaseDate(message = "Дата фильма не может быть в будущем или раньше 1895-12-28")
     private LocalDate releaseDate;
 
     /**

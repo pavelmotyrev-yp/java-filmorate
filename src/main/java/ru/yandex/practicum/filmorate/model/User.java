@@ -1,8 +1,10 @@
-package ru.yandex.practicum.filmorate.model.user;
+package ru.yandex.practicum.filmorate.model;
 
 import lombok.*;
+import ru.yandex.practicum.filmorate.dto.user.NewUserDto;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * Сущность пользователя.
@@ -42,4 +44,9 @@ public class User {
      * Дата рождения пользователя.
      */
     private LocalDate birthday;
+
+    /**
+     * Коллекция ID пользователей которые являются друзьями текущего пользователя.
+     */
+    private Set<Long> friends;
 }

@@ -1,0 +1,110 @@
+package ru.yandex.practicum.filmorate.service.user;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.dto.user.NewUserDto;
+import ru.yandex.practicum.filmorate.dto.user.UpdateUserDto;
+import ru.yandex.practicum.filmorate.dto.user.UserMapper;
+import ru.yandex.practicum.filmorate.dto.user.UserResponseDto;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.repository.user.UserStorage;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
+    private final UserStorage userStorage;
+
+    @Override
+    public UserResponseDto create(NewUserDto newUserDto) {
+        log.info("Создание нового пользователя user={}", newUserDto);
+        User user = UserMapper.toUser(newUserDto);
+        User savedUser = userStorage.create(user);
+        log.info("Пользователь сохранен с ID={}", savedUser.getId());
+        return UserMapper.toUserResponseDto(savedUser);
+    }
+
+    @Override
+    public UserResponseDto update(UpdateUserDto updateUserDto) {
+        log.info("Обновление пользователя по ID={}", updateUserDto.getId());
+        Optional<User> userOptional = userStorage.get(updateUserDto.getId());
+        User user = userOptional.orElseThrow(() -> new NotFoundException("Пользователь не найден по ID=" + updateUserDto.getId()));
+        User updatedUser = UserMapper.toUser(user, updateUserDto);
+        User savedUser = userStorage.update(updatedUser.getId(), updatedUser);
+        log.info("Пользователь обновлен по ID={}", savedUser.getId());
+        return UserMapper.toUserResponseDto(savedUser);
+    }
+
+    @Override
+    public List<UserResponseDto> getAll() {
+        log.info("Получение всех пользователей");
+        Collection<User> userList = userStorage.getAll();
+        log.info("Получен список пользователей размером size={}", userList.size());
+        return userList.stream()
+                .map(UserMapper::toUserResponseDto)
+                .toList();
+    }
+
+    @Override
+    public UserResponseDto getById(long userId) {
+        log.info("Получение пользователя по ID={}", userId);
+        Optional<User> optionalUser = userStorage.get(userId);
+        User user = optionalUser.orElseThrow(() -> new NotFoundException("Пользователь не найден по ID=" + userId));
+        log.info("Пользователь получен по ID={}", userId);
+        return UserMapper.toUserResponseDto(user);
+    }
+
+    @Override
+    public void addFriend(long userId, long friendId) {
+        log.info("Добавление пользователю с ID={} в друзья пользователя с ID={}", userId, friendId);
+        checkUser(userId);
+        checkUser(friendId);
+        userStorage.addFriend(userId, friendId);
+        log.info("Добавлен пользователю с ID={} в друзья пользователь с ID={}", userId, friendId);
+    }
+
+    @Override
+    public void removeFriend(long userId, long friendId) {
+        log.info("Удаление у пользователя с ID={} из друзей пользователя с ID={}", userId, friendId);
+        checkUser(userId);
+        checkUser(friendId);
+        userStorage.removeFriend(userId, friendId);
+        log.info("Удален у пользователя с ID={} из друзей пользователь с ID={}", userId, friendId);
+    }
+
+    @Override
+    public List<UserResponseDto> getCommonFriend(long userId, long friendId) {
+        log.info("Запрос на список общих друзей пользователя с ID={} и пользователя с ID={}", userId, friendId);
+        checkUser(userId);
+        checkUser(friendId);
+        List<User> commonFriendList = userStorage.getCommonFriend(userId, friendId);
+        log.info("Список общих друзей получен size={}", commonFriendList.size());
+        return commonFriendList.stream()
+                .map(UserMapper::toUserResponseDto)
+                .toList();
+    }
+
+    @Override
+    public List<UserResponseDto> getUserFriends(long id) {
+        log.info("Получение списка друзей пользователя с ID={}", id);
+        checkUser(id);
+        log.info("Пользователь проверен");
+        List<User> userFriends = userStorage.getUserFriends(id);
+        log.info("Получен список друзей пользователя с ID={} размер списка size={}", id, userFriends.size());
+        return userFriends.stream()
+                .map(UserMapper::toUserResponseDto)
+                .toList();
+    }
+
+    private void checkUser(long userId) {
+        if (!userStorage.isExist(userId)) {
+            throw new NotFoundException("Пользователь не найден по ID=" + userId);
+        }
+    }
+}

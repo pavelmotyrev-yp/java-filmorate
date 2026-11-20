@@ -5,6 +5,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.filmorate.dto.film.NewFilmDto;
 
 import java.time.LocalDate;
 

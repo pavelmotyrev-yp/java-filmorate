@@ -1,85 +1,73 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
-import ru.yandex.practicum.filmorate.model.user.NewUserDto;
-import ru.yandex.practicum.filmorate.model.user.UpdateUserDto;
-import ru.yandex.practicum.filmorate.model.user.User;
+import ru.yandex.practicum.filmorate.dto.user.NewUserDto;
+import ru.yandex.practicum.filmorate.dto.user.UpdateUserDto;
+import ru.yandex.practicum.filmorate.dto.user.UserResponseDto;
+import ru.yandex.practicum.filmorate.service.user.UserService;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
-@Slf4j
+@RequiredArgsConstructor
 public class UserController {
-    private Map<Long, User> users = new HashMap<>();
+    private final UserService userService;
 
     @PostMapping
-    public User create(@RequestBody @Valid NewUserDto newUserDto) {
-        log.debug("Создание пользователя, login: {}", newUserDto.getLogin());
-
-        Long id = generateId();
-
-        User user = User.builder()
-                .id(id)
-                .email(newUserDto.getEmail())
-                .login(newUserDto.getLogin())
-                .name(newUserDto.getName() == null ? newUserDto.getLogin() : newUserDto.getName())
-                .birthday(newUserDto.getBirthday())
-                .build();
-
-        users.put(id, user);
-        log.info("Пользователь успешно создан, id: {}", id);
-        return user;
+    public ResponseEntity<UserResponseDto> create(@RequestBody @Valid NewUserDto newUserDto) {
+        UserResponseDto userResponseDto = userService.create(newUserDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
     }
 
     @PutMapping
-    public User update(@RequestBody @Valid UpdateUserDto updateUserDto) {
-        Long id = updateUserDto.getId();
-        log.debug("Обновление пользователя, id: {}", id);
-
-        User user = users.getOrDefault(id, null);
-
-        if (user == null) {
-            log.warn("Пользователь не найден, id: {}", id);
-            throw new NotFoundException("пользователь с id " + id + " не найден");
-        }
-
-        if (updateUserDto.getEmail() != null) {
-            user.setEmail(updateUserDto.getEmail());
-        }
-
-        if (updateUserDto.getLogin() != null) {
-            user.setLogin(updateUserDto.getLogin());
-        }
-
-        if (updateUserDto.getName() != null) {
-            user.setName(updateUserDto.getName());
-        }
-
-        if (updateUserDto.getBirthday() != null) {
-            user.setBirthday(updateUserDto.getBirthday());
-        }
-
-        log.info("Пользователь успешно обновлён, id: {}", id);
-        return user;
+    public ResponseEntity<UserResponseDto> update(@RequestBody @Valid UpdateUserDto updateUserDto) {
+        UserResponseDto userResponseDto = userService.update(updateUserDto);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
     }
 
     @GetMapping
-    public Collection<User> getAll() {
-        log.debug("Запрос списка пользователей, кол-во: {}", users.size());
-        return users.values();
+    public ResponseEntity<List<UserResponseDto>> getAll() {
+        List<UserResponseDto> userResponseDtoList = userService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDtoList);
     }
 
-    private Long generateId() {
-        Long currentMaxId = users.keySet().stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0L);
-        return ++currentMaxId;
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponseDto> getById(@PathVariable long userId) {
+        UserResponseDto user = userService.getById(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    @PutMapping("/{id}/friends/{friendId}")
+    public ResponseEntity<Void> addFriend(@PathVariable long id,
+                                          @PathVariable long friendId) {
+        userService.addFriend(id, friendId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    public ResponseEntity<Void> deleteFriend(@PathVariable long id,
+                                             @PathVariable long friendId) {
+        userService.removeFriend(id, friendId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/{id}/friends")
+    public ResponseEntity<List<UserResponseDto>> getUserFriends(@PathVariable long id) {
+        List<UserResponseDto> userResponseDtoList = userService.getUserFriends(id);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDtoList);
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public ResponseEntity<List<UserResponseDto>> getCommonFriends(@PathVariable long id,
+                                                                  @PathVariable long otherId) {
+        List<UserResponseDto> commonFriendList = userService.getCommonFriend(id, otherId);
+        return ResponseEntity.status(HttpStatus.OK).body(commonFriendList);
     }
 }
